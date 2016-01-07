@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" id="@packageName@" version="@version@">  
+  <name>@appName@</name>  
+  <description>@description@</description>  
+  <author email="@email@" href="@homePage@">@author@</author>  
+  <content src="index.html"/>  
+  <access origin="*"/>  
+  <access origin="sms:*" launch-external="yes"/>  
+  <access origin="tel:*" launch-external="yes"/>
+  <!-- 背景色 -->
+  <preference name="BackgroundColor" value="0xffffffff"/>
+  <!-- 屏幕方向 default, all, portrait, landscape --> 
+  <preference name="Orientation" value="default" />
+  
+  <preference name="SplashScreen" value="screen"/>  
+  <preference name="SplashScreenDelay" value="10000"/>  
+</widget>

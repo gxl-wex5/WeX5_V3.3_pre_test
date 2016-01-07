@@ -1,0 +1,17 @@
+/**
+	@name de.fastr.phonegap.plugins.md5chksum
+	@class 
+	@model Native
+	@category EventClass
+	@declareVar window
+*/
+
+/**
+	@name de.fastr.phonegap.plugins.md5chksum.md5chksum
+	@function
+	@param {org.apache.cordova.file#FileEntry} fileEntry 文件系统上的文件接口
+	@param {Function} success 执行成功的回调
+	@param {Function} error 执行失败的回调
+	@returns {void}
+	@description md5校验
+*/

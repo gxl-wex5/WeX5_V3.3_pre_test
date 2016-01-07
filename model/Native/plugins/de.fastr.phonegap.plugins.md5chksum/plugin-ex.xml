@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="de.fastr.phonegap.plugins.md5chksum">
+	<name>md5sum插件</name>
+	<description>读取大文件并生成md5sum增量</description>
+	
+</plugin>

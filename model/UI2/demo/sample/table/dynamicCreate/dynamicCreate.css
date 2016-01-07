@@ -1,0 +1,15 @@
+/* 表单标题 */
+.x-control-group-title {
+    background-color: #99BAF3;
+}
+/* 表格标题 */
+thead{
+	background-color: rgba(51, 164, 245, 0.71);
+}
+/* 表格 行高*/
+.table-striped>tbody>tr:nth-of-type(odd) {
+	height: 20px;
+}
+.table-striped>tbody>tr:nth-of-type(even) {
+	height: 20px;
+}

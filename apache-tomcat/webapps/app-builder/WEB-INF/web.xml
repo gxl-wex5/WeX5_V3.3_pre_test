@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+
+	<description>
+		Justep Deploy Manager.
+	</description>
+
+	<display-name>Justep Deploy Manager</display-name>
+
+	<!-- Define example application events listeners
+	<listener>
+		<listener-class>listeners.ContextListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>listeners.SessionListener</listener-class>
+	</listener>
+	-->
+
+	<servlet>
+		<servlet-name>pack</servlet-name>
+		<servlet-class>com.justep.deploy.app.servlet.Pack</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>packLog</servlet-name>
+		<servlet-class>com.justep.deploy.app.servlet.PackLog</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>download</servlet-name>
+		<servlet-class>com.justep.deploy.app.servlet.Download</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>upload</servlet-name>
+		<servlet-class>com.justep.deploy.app.servlet.Upload</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>test</servlet-name>
+		<servlet-class>com.justep.deploy.app.servlet.Test</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>pack</servlet-name>
+		<url-pattern>/app/pack</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>packLog</servlet-name>
+		<url-pattern>/app/packlog</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>download</servlet-name>
+		<url-pattern>/app/download</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>upload</servlet-name>
+		<url-pattern>/app/upload</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>test</servlet-name>
+		<url-pattern>/app/test</url-pattern>
+	</servlet-mapping>
+
+</web-app>

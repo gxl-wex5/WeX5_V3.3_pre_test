@@ -1,0 +1,16 @@
+/*标题颜色*/
+thead{
+	background-color: #C1D5F8;
+}
+/*列表隔行变色*/
+.table-striped>tbody>tr:nth-of-type(even) {
+    background-color: #CCE8CF;
+}
+/*鼠标单击变色*/
+.blueActive{
+    background:skyblue !important;
+}
+/*鼠标经过变色*/
+.table-hover>tbody>tr:hover {
+    background:yellow;
+}

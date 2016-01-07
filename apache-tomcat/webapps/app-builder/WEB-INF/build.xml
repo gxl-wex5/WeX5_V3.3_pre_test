@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="WeX5 App Builder" default="checkout">
+
+	<condition property="exe" value=".exe" else="">
+		<os family="windows" />
+	</condition>
+	<condition property="javaPath" value="jdk1.7-x64/Contents/Home" else="jre1.7">
+		<os family="mac" />
+	</condition>
+
+	<property file="build.properties" />
+	<property environment="env" />
+	<condition property="envPath" value="${env.windir}:${env.windir}/system32:${env.Path}" else="${env.PATH}">
+		<os family="windows" />
+	</condition>
+
+	<path id="antClasspath">
+		<fileset dir="${libDir}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<typedef resource="org/tigris/subversion/svnant/svnantlib.xml" classpathref="antClasspath" />
+	<svnSetting id="svnantSetting" username="${svnRepositoryUser}" password="${svnRepositoryPassword}" javahl="false" />
+	<typedef resource="com/justep/tools/ant/task/antlib.xml" classpathref="antClasspath" />
+
+	<target name="clean">
+		<delete dir="${appBuildDir}" />
+		<delete dir="${appDistDir}" />
+	</target>
+
+	<target name="checkout">
+		<delete dir="${appTemplateDir}" />
+		<svn refid="svnantSetting">
+			<checkout url="${svnTemplateURL}" revision="HEAD" destPath="${appTemplateDir}" />
+		</svn>
+		<delete dir="${appPluginsDir}" />
+		<svn refid="svnantSetting">
+			<checkout url="${svnPluginsURL}" revision="HEAD" destPath="${appPluginsDir}" />
+		</svn>
+	</target>
+
+	<target name="update">
+		<svn refid="svnantSetting">
+			<update dir="${appTemplateDir}" />
+		</svn>
+		<svn refid="svnantSetting">
+			<update dir="${appPluginsDir}" />
+		</svn>
+	</target>
+
+	<target name="createApp" unless="${sourceMode}">
+		<copy todir="${appBuildDir}" overwrite="true">
+			<fileset dir="${appTemplateDir}" />
+		</copy>
+	</target>
+
+	<target name="mergeResources">
+		<unzip src="${appUploadDir}/src.zip" dest="${appBuildDir}" overwrite="true" encoding="UTF-8" />
+
+		<chmod dir="${appBuildDir}/platforms/android/cordova" perm="ugo+rx" includes="*" />
+		<chmod dir="${appBuildDir}/platforms/ios/cordova" perm="ugo+rx" includes="*" />
+		<chmod dir="${appBuildDir}/platforms/android/cordova" perm="ugo+rx" includes="**/*.sh" />
+		<chmod dir="${appBuildDir}/platforms/ios/cordova" perm="ugo+rx" includes="**/*.sh" />
+
+		<property file="${appBuildDir}/build.properties" />
+	</target>
+
+	<target name="build" depends="prepareBuild, prepareAndroidBuild, prepareIOSBuild, buildAndroid, buildIOS, zipDist, afterBuild">
+	</target>
+
+	<target name="prepareBuild">
+		<mkdir dir="${appBuildDir}" />
+		<mkdir dir="${appDistDir}" />
+
+		<!-- build目录新建，build.properties是工程自己的文件 -->
+		<property file="build.properties" />
+		<condition property="buildAndroidNeeded">
+			<contains string="${platform}" substring="android" casesensitive="false" />
+		</condition>
+		<condition property="buildIOSNeeded">
+			<contains string="${platform}" substring="ios" casesensitive="false" />
+		</condition>
+
+		<!-- setProperty: appName -->
+		<!-- setProperty: androidKeyStore, androidKeyAlias, androidKeyStorePassword, androidKeyAliasPassword -->
+		<!-- setProperty: iosPassword, iosCompileType -->
+		<prepareBuild buildDir="${appBuildDir}" buildAndroidNeeded="${buildAndroidNeeded}" buildIOSNeeded="${buildIOSNeeded}" releaseMode="${releaseMode}" />
+	</target>
+
+	<target name="prepareAndroidBuild" if="buildAndroidNeeded">
+		<propertyfile file="${appBuildDir}/platforms/android/ant.properties">
+			<entry key="key.store" value="${androidKeyStore}" />
+			<entry key="key.store.password" value="${androidKeyStorePassword}" />
+			<entry key="key.alias" value="${androidKeyAlias}" />
+			<entry key="key.alias.password" value="${androidKeyAliasPassword}" />
+		</propertyfile>
+
+		<copy file="${appBuildDir}/android.keystore" tofile="${appBuildDir}/platforms/android/android.keystore" overwrite="true" />
+	</target>
+
+	<target name="prepareIOSBuild" if="buildIOSNeeded">
+		<!-- set manually: security unlock-keychain -->
+
+		<exec dir="${appBuildDir}" executable="security" failonerror="true">
+			<arg value="import" />
+			<arg value="ios.${iosCompileType}.p12" />
+			<arg value="-k" />
+			<arg value="${userKeychainDir}/login.keychain" />
+			<arg value="-P" />
+			<arg value="${iosPassword}" />
+			<arg value="-T" />
+			<arg value="/usr/bin/codesign" />
+		</exec>
+
+		<copy file="${appBuildDir}/ios.${iosCompileType}.mobileprovision" tofile="${ProvisioningProfilesDir}/${appID}.mobileprovision" overwrite="true" />
+	</target>
+
+	<target name="buildAndroid" if="buildAndroidNeeded">
+		<exec dir="${appBuildDir}" executable="${NODE_BIN}/node${exe}" failonerror="true">
+			<arg value="${CORDOVA_PATH}/bin/cordova" />
+			<arg value="build" />
+			<arg value="--${releaseMode}" />
+			<arg value="android" />
+			<env key="JAVA_HOME" value="${JAVA_HOME}" />
+			<env key="CLASSPATH" value="" />
+			<env key="ANT_HOME" value="${ANT_HOME}" />
+			<env key="ANDROID_SDK" value="${ANDROID_SDK}" />
+			<env key="ANDROID_HOME" value="${ANDROID_SDK}" />
+			<env key="NODE_PATH" value="${CORDOVA_PATH}/node_modules" />
+			<env key="PATH" path="${NODE_BIN}:${ANDROID_SDK}/platform-tools:${ANDROID_SDK}/tools:${ANT_HOME}/bin:${JAVA_HOME}/bin:${envPath}" />
+		</exec>
+
+		<copy file="${appBuildDir}/platforms/android/bin/X5-${releaseMode}.apk" tofile="${appDistDir}/${appName}.apk" overwrite="true" />
+	</target>
+
+	<target name="buildIOS" if="buildIOSNeeded">
+		<exec dir="${appBuildDir}" executable="${NODE_BIN}/node${exe}" failonerror="true">
+			<arg value="${CORDOVA_PATH}/bin/cordova" />
+			<arg value="build" />
+			<arg value="--${releaseMode}" />
+			<arg value="--device" />
+			<arg value="ios" />
+			<env key="NODE_PATH" value="${NODE_PATH}" />
+			<env key="PATH" path="${NODE_BIN}:${envPath}" />
+		</exec>
+
+		<exec dir="${appBuildDir}/platforms/ios/build/device" executable="xcrun" failonerror="true">
+			<arg value="-sdk" />
+			<arg value="iphoneos" />
+			<arg value="PackageApplication" />
+			<arg value="-v" />
+			<arg value="./${appName}.app" />
+			<arg value="-o" />
+			<arg value="${appDistDir}/${appName}.ipa" />
+		</exec>
+
+	</target>
+
+	<target name="zipDist">
+		<zip destfile="${appDistDir}/app.zip" encoding="UTF-8">
+			<fileset dir="${appDistDir}">
+				<include name="${appName}.apk" />
+				<include name="${appName}.ipa" />
+			</fileset>
+		</zip>
+	</target>
+
+	<target name="afterBuild">
+	</target>
+
+</project>

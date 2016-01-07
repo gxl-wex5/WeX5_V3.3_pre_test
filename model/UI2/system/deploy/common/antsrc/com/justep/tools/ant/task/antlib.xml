@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<antlib> 
+  <taskdef name="upload" classname="com.justep.tools.ant.task.UploadTask"/>  
+  <taskdef name="pack" classname="com.justep.tools.ant.task.PackTask"/>  
+  <taskdef name="download" classname="com.justep.tools.ant.task.DownloadTask"/>  
+  <taskdef name="compileUI" classname="com.justep.tools.ant.task.CompileUITask"/>  
+  <taskdef name="processWWW" classname="com.justep.tools.ant.task.ProcessWWWTask"/>  
+  <taskdef name="addPlugins" classname="com.justep.tools.ant.task.AddPluginsTask"/>  
+  <taskdef name="updateSource" classname="com.justep.tools.ant.task.UpdateSourceTask"/>  
+  <taskdef name="updateSourceProject" classname="com.justep.tools.ant.task.UpdateSourceProjectTask"/>  
+  <taskdef name="saveProject" classname="com.justep.tools.ant.task.SaveProjectTask"/> 
+</antlib>

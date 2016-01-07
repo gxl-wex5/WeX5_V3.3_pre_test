@@ -1,0 +1,10 @@
+/*标题颜色*/
+thead{
+	background-color: #ADC7F5;
+}
+
+/*鼠标单击变色*/
+.blueActive{
+        background:skyblue !important;
+}
+

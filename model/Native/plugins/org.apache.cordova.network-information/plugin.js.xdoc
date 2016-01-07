@@ -1,0 +1,83 @@
+/**
+	@name org.apache.cordova.network-information
+	@class 
+	@description 网络(事件)插件
+	@model Native
+	@category EventClass
+	@declareVar navigator.connection
+*/
+
+/**
+	@name org.apache.cordova.network-information.getInfo
+	@function
+	@see org.apache.cordova.network-information#Connection
+	@param {Function} successCallback 请求成功的回调，回调返回org.apache.cordova.network-information#Connection对象
+	@param {Function} errorCallback 请求失败的回调
+	@returns {void}
+	@description 获取网络连接信息
+*/
+
+/**
+	@name org.apache.cordova.network-information#Connection
+	@class 
+	@description 网络连接信息
+	@model Native
+	@category EventClass
+	@declareVar Connection
+*/
+
+/**
+	@name org.apache.cordova.network-information#Connection#UNKNOWN
+	@constant
+	@type String
+	@description 常量值 unknown
+*/
+
+/**
+	@name org.apache.cordova.network-information#Connection#ETHERNET
+	@constant
+	@type String
+	@description 常量值 ethernet
+*/
+
+/**
+	@name org.apache.cordova.network-information#Connection#WIFI
+	@constant
+	@type String
+	@description 常量值 wifi
+*/
+
+/**
+	@name org.apache.cordova.network-information#Connection#CELL_2G
+	@constant
+	@type String
+	@description 常量值 2g
+*/
+
+/**
+	@name org.apache.cordova.network-information#Connection#CELL_3G
+	@constant
+	@type String
+	@description 常量值 3g
+*/
+
+/**
+	@name org.apache.cordova.network-information#Connection#CELL_4G
+	@constant
+	@type String
+	@description 常量值 4g
+*/
+
+/**
+	@name org.apache.cordova.network-information#Connection#CELL
+	@constant
+	@type String
+	@description 常量值 cellular
+*/
+
+/**
+	@name org.apache.cordova.network-information#Connection#NONE
+	@constant
+	@type String
+	@description 常量值 none
+*/

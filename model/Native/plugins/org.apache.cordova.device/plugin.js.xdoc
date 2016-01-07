@@ -1,0 +1,52 @@
+/**
+	@name org.apache.cordova.device
+	@class 
+	@description 本地设备插件
+	@model Native
+	@category EventClass
+	@declareVar window.device
+*/
+
+/**
+	@name org.apache.cordova.device.cordova
+	@property
+	@type string
+	@description 获得Cordova版本
+*/
+
+/**
+	@name org.apache.cordova.device.model
+	@property
+	@type string
+	@description 获得产品型号或者产品名称
+*/
+
+/**
+	@name org.apache.cordova.device.platform
+	@property
+	@type string
+	@description 获得本机运行系统
+*/
+
+/**
+	@name org.apache.cordova.device.uuid
+	@property
+	@type string
+	@description 获得本机唯一标识码
+*/
+
+/**
+	@name org.apache.cordova.device.version
+	@property
+	@type string
+	@description 获得操作系统版本
+*/
+
+/**
+	@name org.apache.cordova.device.getInfo
+	@function
+	@param {Function} onSuccess 执行成功回调函数
+	@param {Function} onError 执行失败回调函数
+	@returns {object}
+	@description 获得设备信息
+*/

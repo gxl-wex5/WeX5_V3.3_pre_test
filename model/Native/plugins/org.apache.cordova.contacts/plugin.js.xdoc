@@ -1,0 +1,466 @@
+/**
+	@name org.apache.cordova.contacts
+	@class
+	@description 通讯录插件
+	@model Native
+	@category EventClass
+	@declareVar navigator.contacts
+*/
+
+/**
+	@name org.apache.cordova.contacts.create
+	@function
+	@see org.apache.cordova.contacts#Contact
+	@param {Object} properties 创建联系人所必须的属性,org.apache.cordova.contacts#Contact结构参数
+	@returns {Contact} 返回联系人对象
+	@description 创建新的联系人
+*/
+
+/**
+	@name org.apache.cordova.contacts.find
+	@function
+	@see org.apache.cordova.contacts#Contact
+	@see org.apache.cordova.contacts#ContactFindOptions
+	@param {String[]} fields 检索的值
+	@param {Function} successCB 请求成功的回调，返回org.apache.cordova.contacts#Contact对象
+	@param {Function} errorCB 可选参数  请求失败的回调
+	@param {ContactFindOptions} options 可选参数  应用于接触搜索的参数
+	@returns {Array}返回联系人数组
+	@description 根据条件进行数据查找
+*/
+
+/**
+	@name org.apache.cordova.contacts.pickContact
+	@function
+	@see org.apache.cordova.contacts#Contact
+	@param {Function} successCB 请求成功的回调，返回org.apache.cordova.contacts#Contact对象
+	@param {Function} errorCB  可选参数  请求失败的回调
+	@returns {Contact} 返回联系人对象
+	@description 选择联系人
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactFindOptions
+	@class
+	@description 联系人查找参数
+	@model Native
+	@category EventClass
+	@declareVar ContactFindOptions
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactFindOptions#filter
+	@property
+	@type String
+	@description 过滤条件，缺省为""
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactFindOptions#multiple
+	@property
+	@type Boolean
+	@description 是否返回多值，缺省为false
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactFindOptions#desiredFields
+	@property
+	@type String[]
+	@description 返回指定的字段信息
+*/
+
+/**
+	@name org.apache.cordova.contacts#Contact
+	@class
+	@description 联系人
+	@model Native
+	@category EventClass
+	@declareVar Contact
+*/
+
+/**
+	@name org.apache.cordova.contacts#Contact#id
+	@property
+	@type String
+	@description 全局唯一标识符
+*/
+
+/**
+	@name org.apache.cordova.contacts#Contact#displayName
+	@property
+	@type String
+	@description 联系人名称
+*/
+
+/**
+	@name org.apache.cordova.contacts#Contact#name
+	@property
+	@type ContactName
+	@description 联系人名称类
+*/
+
+/**
+	@name org.apache.cordova.contacts#Contact#nickname
+	@property
+	@type String
+	@description 联系人昵称
+*/
+
+/**
+	@name org.apache.cordova.contacts#Contact#phoneNumbers
+	@property
+	@see org.apache.cordova.contacts#ContactField
+	@type ContactField[]
+	@description 联系人的电话号码数组
+*/
+
+/**
+	@name org.apache.cordova.contacts#Contact#emails
+	@property
+	@see org.apache.cordova.contacts#ContactField
+	@type ContactField[]
+	@description 联系人的email数组
+*/
+
+/**
+	@name org.apache.cordova.contacts#Contact#addresses
+	@property
+	@see org.apache.cordova.contacts#ContactAddress
+	@type ContactAddress[]
+	@description 联系人的地址数组
+*/
+
+/**
+	@name org.apache.cordova.contacts#Contact#ims
+	@property
+	@see org.apache.cordova.contacts#ContactField
+	@type ContactField[]
+	@description 联系人IM的数组
+*/
+
+/**
+	@name org.apache.cordova.contacts#Contact#organizations
+	@property
+	@see org.apache.cordova.contacts#ContactOrganization
+	@type ContactOrganization[]
+	@description 联系人组织的数组
+*/
+
+/**
+	@name org.apache.cordova.contacts#Contact#birthday
+	@property
+	@type Date
+	@description 联系人 生日日期
+*/
+
+/**
+	@name org.apache.cordova.contacts#Contact#note
+	@property
+	@type String
+	@description 关于联系人的便笺
+*/
+
+/**
+	@name org.apache.cordova.contacts#Contact#photos
+	@property
+	@see org.apache.cordova.contacts#ContactField
+	@type ContactField[]
+	@description 联系人电话的数组
+*/
+
+/**
+	@name org.apache.cordova.contacts#Contact#categories
+	@property
+	@see org.apache.cordova.contacts#ContactField
+	@type ContactField[]
+	@description 用户自定义类别的数组
+*/
+
+/**
+	@name org.apache.cordova.contacts#Contact#urls
+	@property
+	@see org.apache.cordova.contacts#ContactField
+	@type ContactField[]
+	@description 与联系人相关网站的数组
+*/
+
+/**
+	@name org.apache.cordova.contacts#Contact#clone
+	@function
+	@returns {Contact} 
+	@description 克隆id为空的联系人
+*/
+
+/**
+	@name org.apache.cordova.contacts#Contact#remove
+	@function
+	@see org.apache.cordova.contacts#ContactError
+	@param {Function} successCB 移除成功的回调
+	@param {Function} errorCB 移除异常的回调，返回org.apache.cordova.contacts#ContactError对象
+	@returns {Contact} 
+	@description 移除联系人
+*/
+
+/**
+	@name org.apache.cordova.contacts#Contact#save
+	@function
+	@param {Function} successCB 保存成功的回调
+	@param {Function} errorCB 保存异常的回调
+	@returns {Contact} 
+	@description 保存联系人，如果当前联系人id存在，将更新已有的联系人信息
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactError
+	@class
+	@description 联系人删除异常类
+	@model Native
+	@category EventClass
+	@declareVar ContactError
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactError#code
+	@property
+	@type String
+	@description 错误编码
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactError#UNKNOWN_ERROR
+	@constant
+	@type Number
+	@description 常量值 0
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactError#INVALID_ARGUMENT_ERROR
+	@constant
+	@type Number
+	@description 常量值 1
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactError#TIMEOUT_ERROR
+	@constant
+	@type Number
+	@description 常量值 2
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactError#PENDING_OPERATION_ERROR
+	@constant
+	@type Number
+	@description 常量值 3
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactError#IO_ERROR
+	@constant
+	@type Number
+	@description 常量值 4
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactError#NOT_SUPPORTED_ERROR
+	@constant
+	@type Number
+	@description 常量值 5
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactError#PERMISSION_DENIED_ERROR
+	@constant
+	@type Number
+	@description 常量值 20
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactField
+	@class
+	@description 联系人字段类
+	@model Native
+	@category EventClass
+	@declareVar ContactField
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactField#type
+	@property
+	@type String
+	@description 字段类型
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactField#value
+	@property
+	@type String
+	@description 字段值
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactField#pref
+	@property
+	@type Boolean
+	@description 是否使用用户的优选值
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactAddress
+	@class
+	@description 联系人地址类
+	@model Native
+	@category EventClass
+	@declareVar ContactAddress
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactAddress#pref
+	@property
+	@type Boolean
+	@description 是否使用用户的优选值 
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactAddress#type
+	@property
+	@type String
+	@description 字段类型 
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactAddress#formatted
+	@property
+	@type String
+	@description 地址显示格式
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactAddress#streetAddress
+	@property
+	@type String
+	@description 街道地址 
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactAddress#locality
+	@property
+	@type String
+	@description 城市或地区 
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactAddress#region
+	@property
+	@type String
+	@description 国家或区域
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactAddress#postalCode
+	@property
+	@type String
+	@description 邮政编码
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactAddress#country
+	@property
+	@type String
+	@description 国家名
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactOrganization
+	@class
+	@description 联系人组织属性类
+	@model Native
+	@category EventClass
+	@declareVar ContactOrganization
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactOrganization#pref
+	@property
+	@type Boolean
+	@description 是否使用用户的优选值
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactOrganization#type
+	@property
+	@type String
+	@description 字段类型
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactOrganization#name
+	@property
+	@type String
+	@description 组织名称
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactOrganization#department
+	@property
+	@type String
+	@description 联系人的工作部门
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactOrganization#title
+	@property
+	@type String
+	@description 联系人的组织标题
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactName
+	@class
+	@description 联系人名称属性类
+	@model Native
+	@category EventClass
+	@declareVar ContactName
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactName#formatted
+	@property
+	@type String
+	@description 联系人名称
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactName#familyName
+	@property
+	@type String
+	@description 联系人的姓
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactName#givenName
+	@property
+	@type String
+	@description 联系人的名
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactName#middleName
+	@property
+	@type String
+	@description 联系人的中名
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactName#honorificPrefix
+	@property
+	@type String
+	@description 联系人的前缀
+*/
+
+/**
+	@name org.apache.cordova.contacts#ContactName#honorificSuffix
+	@property
+	@type String
+	@description 联系人的后缀
+*/

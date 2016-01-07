@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<style>
+		.menu{
+			margin-left: 60px;
+			display: block;
+			margin-top: 5px;
+		}
+		.indent{
+			text-indent: 2em;
+			margin: 0;
+			line-height:28px;
+		}
+		a{
+			color: #2275b4;
+			text-decoration: none;
+		}
+		a:hover{
+			text-decoration: underline;
+		}
+	</style>
+	<body style="background-color: #F6F6F6;color: rgb(84, 84, 84);">
+		
+		
+		<div style="width: 80%;margin-left: auto;margin-right: auto;background-color: white;"><br /><br />
+		<div style="width: 80%;margin-left: auto;margin-right: auto;">
+			<span style="font-size: 200%;">欢迎使用WeX5开发工具</span><br /><br />
+			<a href="#justep1" class="menu">1&nbsp;&nbsp;安装及启动</a>
+			<a href="#justep2" class="menu">2&nbsp;&nbsp;案例运行</a>
+			<a href="#justep2.1" class="menu" style="margin-left: 90px;">2.1&nbsp;&nbsp;启动服务</a>
+			<a href="#justep2.2" class="menu" style="margin-left: 90px;">2.2&nbsp;&nbsp;PC浏览器运行</a>
+			<a href="#justep2.3" class="menu" style="margin-left: 90px;">2.3&nbsp;&nbsp;手机浏览器运行</a>
+			<a href="#justep2.4" class="menu" style="margin-left: 90px;">2.4&nbsp;&nbsp;手机APP运行</a>
+			<a href="#justep2.5" class="menu" style="margin-left: 90px;">2.5&nbsp;&nbsp;微信运行</a>
+			<a href="#justep3" class="menu">3&nbsp;&nbsp;目录说明</a>
+			<a href="#justep4" class="menu">4&nbsp;&nbsp;资源获取</a>
+			<a href="#justep5" class="menu">5&nbsp;&nbsp;入门学习</a>
+			<a href="#justep5.1" class="menu" style="margin-left: 90px;">5.1&nbsp;&nbsp;初识WeX5</a>
+			<a href="#justep5.2" class="menu" style="margin-left: 90px;">5.2&nbsp;&nbsp;认识WeX5组件</a>
+			<a href="#justep5.3" class="menu" style="margin-left: 90px;">5.3&nbsp;&nbsp;学习外卖开发案例</a>
+			<a href="#justep5.4" class="menu" style="margin-left: 90px;">5.4&nbsp;&nbsp;进阶WeX5代码基础和调试</a>
+			<a href="#justep6" class="menu">6&nbsp;&nbsp;常见问题</a>
+		</div>
+		<div id="justep1"  style="width: 80%;margin-left: auto;margin-right: auto;">
+			<span style="font-size: 200%;display: block;margin: 15px 0;">1&nbsp;安装及启动</span>
+			<p class="indent">IDE工具下载：
+			<a target="_blank" href="http://wex5.com/cn/downloads/">http://wex5.com/cn/downloads/</a></p>
+			<p class="indent">WeX5是绿色免安装的，下载好工具后，解压即可直接使用。</p>
+			<p class="indent" style="color: #cc0000;">
+				请一定要注意：不能解压到含中文、空格和特殊字符的目录下，
+				例如：Program &nbsp; Files，是不可以的，因为包含空格。</p><br />
+			<p class="indent">安装后根目录下有以下几个批处理：</p>
+			<ul>
+				<li>启动Chrome浏览器.bat</li>
+				<p style="margin: 8px;">平台版本内置Chrome浏览器，且已经将开发过程中经常用的调试访问链接进行收藏，便于开发者直接使用。</p>
+				<li>启动MySQL数据库.bat</li>
+				<p style="margin: 8px;line-height: 28px;">平台版本内置MySQL数据库，版本是5.6.26，默认端口号3306。如果你本机有安装MySQL，需要修改MySQL数据库的端口，否则就会冲突。</p>
+				<li>启动MySQL管理工具.bat</li>
+				<p style="margin: 8px;">启动版本中MySQL的管理工具。</p>
+				<li>启动WeX5开发工具.bat</li>
+				<p style="margin: 8px;">运行进入开发环境。</p>
+				<li>启动WeX5运行平台（调试模式）.bat</li>
+				<p style="margin: 8px;"> 以调试模式启动X5自带的Tomcat服务，适用与开发阶段。</p>
+				<li>启动WeX5运行平台.bat</li>
+				<p style="margin: 8px;">启动X5自带的Tomcat服务（结束服务按Ctrl+C键）。</p>
+			</ul>
+		</div>
+		<div id="justep2"  style="width: 80%;margin-left: auto;margin-right: auto;">
+			<span style="font-size: 200%;display: block;margin: 15px 0;">2&nbsp;案例运行</span>
+			<p class="indent">开发工具中，已经带了几个学习案例，
+				包括：综合演示案例、外卖案例、记账本、仿途牛案例、仿淘宝案例、
+				仿网易案例等，可以直接运行体验运行效果。</p>
+			<p class="indent">其中外卖和记账本两个案例，需要使用到MySQL数据库，
+				因此如果访问这两个案例需要启动数据库。</p>
+			<div id="justep2.1">
+				<span style="font-size: 150%;display: block;margin: 10px 0 10px 31px;">2.1&nbsp;&nbsp;启动服务</span>
+				<p class="indent">1)&nbsp;&nbsp;&nbsp;运行“启动MySQL数据库.bat”，注意一定保证运行时的黑色窗口保持开启状态，如果自动关闭，说明数据库启动有问题。</p>
+				<p class="indent">2)&nbsp;&nbsp;&nbsp;运行“启动WeX5运行平台.bat”（保持窗口打开，不能关闭）。</p>
+			</div>
+			<div id="justep2.2">
+				<span style="font-size: 150%;display: block;margin: 10px 0 10px 31px;">2.2&nbsp;&nbsp;PC浏览器运行</span>
+				<span style="margin-left: 2em;">运行“启动Chrome浏览器.bat”</span>
+				<p class="indent" style="margin-left: 2em;">综合演示案例：<a target="_blank" href="http://localhost:8080">http://localhost:8080</a></p>
+				<p class="indent" style="margin-left: 2em;">外卖案例：<a target="_blank" href="http://localhost:8080/x5/UI2/takeout/index.w">http://localhost:8080/x5/UI2/takeout/index.w</a></p>
+				<p class="indent" style="margin-left: 2em;">记账本案例：<a target="_blank" href="http://localhost:8080/x5/UI2/demo/account/index.w">http://localhost:8080/x5/UI2/demo/account/index.w</a></p>
+				<p class="indent" style="margin-left: 2em;">仿途牛案例：<a target="_blank" href="http://localhost:8080/x5/UI2/demo/tuniu/index.w">http://localhost:8080/x5/UI2/demo/tuniu/index.w</a></p>
+				<p class="indent" style="margin-left: 2em;">仿淘宝案例：<a target="_blank" href="http://localhost:8080/x5/UI2/demo/taobao/index.w">http://localhost:8080/x5/UI2/demo/taobao/index.w</a></p>
+				<p class="indent" style="margin-left: 2em;">仿网易案例：<a target="_blank" href="http://localhost:8080/x5/UI2/demo/netease/index.w">http://localhost:8080/x5/UI2/demo/netease/index.w</a></p>
+				<br />
+				<p class="indent" style="color: #cc0000;">显示页面后，按F12键，找到手机图标，点击之后，再次刷新，即可显示浏览器模拟手机访问的效果。</p>
+			</div>
+			<div id="justep2.3">
+				<span style="font-size: 150%;display: block;margin: 10px 0 10px 31px;">2.3&nbsp;&nbsp;手机浏览器运行</span>
+				<p class="indent">你可以直接使用手机或者平板浏览器访问以上案例，只需将手机或平板跟你电脑在
+					同一个网络上，直接浏览器输入以上地址，其中的localhost替换为局域网的IP地址即可。</p>
+			</div>
+			<div id="justep2.4">
+				<span style="font-size: 150%;display: block;margin: 10px 0 10px 31px;">2.4&nbsp;&nbsp;手机APP运行</span>
+				<p class="indent">如果你希望体验一下手机App运行效果，需要进入Studio开发工具进行打包，
+					详细步骤参见：<a target="_blank" href="http://wex5.com/cn/wex5-platform-to-app-process/">http://wex5.com/cn/wex5-platform-to-app-process/</a>
+					，也可以直接在<a target="_blank" href="http://wex5.com/cn/appstore/">官网在线体验</a>扫描二维码直接下载App进行体验。</p>
+			</div>
+			<div id="justep2.5">
+				<span style="font-size: 150%;display: block;margin: 10px 0 10px 31px;">2.5&nbsp;&nbsp;微信运行</span>
+				<p class="indent">请在微信中关注<a target="_blank" href="http://wex5.com/cn/wp-content/uploads/2015/03/wen-xin-2.png">起步官方微信</a>，即可体验微信内案例运行效果。
+					通讯录，添加朋友，查找“起步软件”即可关注。</p>
+			</div>
+		</div>
+		<div id="justep3"  style="width: 80%;margin-left: auto;margin-right: auto;">
+			<span style="font-size: 200%;display: block;margin: 15px 0;">3&nbsp;目录说明</span>
+			<ul>
+				<li>apache-tomcat</li>
+				<p style="line-height: 28px;margin: 0;">Tomcat服务目录。</p>
+				<li>java</li>
+				<p style="line-height: 28px;margin: 0;">Java运行环境。</p>
+				<li>model</li>
+				<p style="line-height: 28px;margin: 0;">模型资源，开发出来的资源将存放在这里。</p>
+				<li>node</li>
+				<p style="line-height: 28px;margin: 0;">node js执行程序。</p>
+				<li>mysql</li>
+				<p style="line-height: 28px;margin: 0;">MySQL数据库，运行“启动MySQL数据库.bat”启动MySQL数据库，“启动MySQL管理工具.bat”对MySQL进行配置管理。</p>
+				<li>runtime</li>
+				<p style="line-height: 28px;margin: 0;">WeX5运行时核心服务，包括UI服务和Baas服务。</p>
+				<li>studio</li>
+				<p style="line-height: 28px;margin: 0;">WeX5建模开发工具，由"启动WeX5开发工具.bat"启动。</p>
+				<li>tools</li>
+				<p style="line-height: 28px;margin: 0;">adt-sdk： android sdk；</p>
+				<p style="line-height: 28px;margin: 0;">apache-ant： ant命令行工具；</p>
+				<p style="line-height: 28px;margin: 0;">compile\compileUI.bat： 编译model目录下的UI2资源；</p>
+				<p style="line-height: 28px;margin: 0;">compile\compileBaas.bat： 编译model目录下的Baas资源；</p>
+				<p style="line-height: 28px;margin: 0;">compile\compileBaasDebug.bat：用于开发调试下编译model目录下的Baas资源；</p>
+				<p style="line-height: 28px;margin: 0;">chromium：默认studio中.w文件运行的chrome浏览器；</p>
+				<p style="line-height: 28px;margin: 0;">cordova： cordova命令行工具；</p>
+				<p style="line-height: 28px;margin: 0;">dist\dist.bat： 资源合并工具；</p>
+				<p style="line-height: 28px;margin: 0;">dist\less.bat： css生成工具。</p>
+			</ul>
+		</div>
+		<div id="justep4"  style="width: 80%;margin-left: auto;margin-right: auto;">
+			<span style="font-size: 200%;display: block;margin: 15px 0;">4&nbsp;资源获取</span>
+			<p class="indent">API手册：Studio工具，菜单栏“WeX5文档”——API手册；</p>
+			<a href=".\studio\api-docs\index.html"></a>
+			<p class="indent">文档中心：<a target="_blank" href="http://wex5.com/cn/doc/">http://wex5.com/cn/doc/</a>；</p>
+			<p class="indent">视频教程：<a target="_blank" href="http://wex5.com/cn/downloads/">http://wex5.com/cn/downloads/</a>；</p>
+			<p class="indent">资源下载：<a target="_blank" href="http://wex5.com/cn/zh-download-page">http://wex5.com/cn/zh-download-page</a>；</p>
+			<p class="indent">开发社区：<a target="_blank" href="http://wex5.com/cn/bbs/index.html">http://wex5.com/cn/bbs/index.html</a>；</p>
+			<p class="indent">在线体验：<a target="_blank" href="http://wex5.com/cn/appstore/">http://wex5.com/cn/appstore/</a>；</p>
+			<p class="indent">加入QQ群：<a target="_blank" href="http://wex5.com/cn/qqgroup/">http://wex5.com/cn/qqgroup/</a>&nbsp;&nbsp;&nbsp;WeX5/BeX5官方技术4群：189469727。</p>
+		</div>
+		<div id="justep5"  style="width: 80%;margin-left: auto;margin-right: auto;">
+			<span style="font-size: 200%;display: block;margin: 15px 0;">5&nbsp;入门学习</span>
+			<div id="justep5.1">
+				<span style="font-size: 150%;display: block;margin: 15px 0 10px 31px;">5.1&nbsp;&nbsp;初识WeX5</span>
+				<p style="line-height: 28px;margin: 0;"><span style="margin-left: 2em;">1&nbsp;&nbsp;</span><a target="_blank" href="http://pan.baidu.com/s/1mgGoqq0">demo使用说明</a><span>&nbsp;&nbsp;（课程时长21分钟）</span></p>
+				<p class="indent">本视频介绍WeX5的四个demo案例：综合演示、外卖、仿途牛、WeX5论坛的运行和APP体验方法，使您初步了解WeX5的能力。</p>
+				<p style="line-height: 28px;margin: 0;"><span style="margin-left: 2em;">2&nbsp;&nbsp;</span><a target="_blank" href="http://pan.baidu.com/s/1i3FBKUx">我的第一个应用</a><span>&nbsp;&nbsp;（课程时长8分钟）</span></p>
+				<p class="indent">本视频通过一个简单的hello案例介绍，使您了解如何使用WeX5开发一个手机应用的过程，进一步了解WeX5的具体开发过程。</p>
+				<p style="line-height: 28px;margin: 0;"><span style="margin-left: 2em;">3&nbsp;&nbsp;</span><a target="_blank" href="http://pan.baidu.com/s/1uPqeq">APP完整开发过程</a><span>&nbsp;&nbsp;（课程时长60分钟）</span></p>
+				<p class="indent">本视频完整介绍使用WeX5开发APP应用的过程，使您对WeX5的开发工具使用、开发原理有一个全面的认识。</p>
+				<p style="line-height: 28px;margin: 0;"><span style="margin-left: 2em;">4&nbsp;&nbsp;</span><a target="_blank" href="http://pan.baidu.com/s/1kTpAouV">WeX5开发工具入门</a><span>&nbsp;&nbsp;（课程时长44分钟）</span></p>
+				<p class="indent">本视频详细介绍WeX5开发工具，了解开发工具的具体使用和操作技巧，使您轻松开启WeX5开发之旅。</p>
+			</div>
+			<div id="justep5.2">
+				<span style="font-size: 150%;display: block;margin: 15px 0 10px 31px;">5.2&nbsp;&nbsp;认识WeX5组件</span>
+				<p class="indent"><a target="_blank" href="http://wex5.com/cn/?p=4202">组件使用基础：</a></p>
+				<p class="indent">WeX5的界面是由组件构成的，组件是一个可以以图形化方式显示在屏幕上，并能与用户进行交互的对象。组件是对数据和方法的封装，有自己的属性、事件和方法等。
+组件使用基础将从组件的创建、属性、方法、操作、事件、样式、API、调试等方面详细介绍组件的使用。</p>
+				<span style="margin-left: 2em;line-height: 28px;">常用组件：</span><br />
+				<div style="height: 120px;width: 100%;">
+				<div style="width: 50%;height:120px;float: left;overflow: hidden;">
+					<span style="margin-left: 2em;line-height: 28px;"><a target="_blank" href="http://wex5.com/cn/data/">data数据组件</a></span><br />
+					<span style="margin-left: 2em;line-height: 28px;"><a target="_blank" href="http://wex5.com/cn/?p=8159">input数据输入的基础组件</a></span><br />
+					<span style="margin-left: 2em;line-height: 28px;"><a target="_blank" href="http://wex5.com/cn/?p=7598">list动态数据显示组件</a></span><br />
+					<span style="margin-left: 2em;line-height: 28px;"><a target="_blank" href="http://wex5.com/cn/?p=8709">panel上中下结构的页面组件</a></span><br />
+				</div>
+				<div style="width: 50%;height:120px;float: left;overflow: hidden;">
+					<span style="line-height: 28px;"><a target="_blank" href="http://wex5.com/cn/?p=8230">contents滑动切换页面的组件</a></span><br />
+					<span style="line-height: 28px;"><a target="_blank" href="http://wex5.com/cn/?p=8884">row行组件</a></span><br />
+					<span style="line-height: 28px;"><a target="_blank" href="http://wex5.com/cn/?p=9393">其他常用组件</a></span>
+				</div></div>
+			</div>
+			<div id="justep5.3">
+				<span style="font-size: 150%;display: block;margin: 15px 0 10px 31px;">5.3&nbsp;&nbsp;学习外卖开发案例</span>
+				<p class="indent">这里将学习使用WeX5开发一个外卖订餐的App应用。这个外卖案例具有：菜单选择加入购物车；购物车下单；历史订单查看；用户信息管理等功能。</p>
+				<p class="indent">该教程将手把手教您WeX5开发外卖案例的全过程，包括开发APP前端页面、后端服务调用、手机定位和手机支付（微信支付、支付宝支付）、打包部署以
+					及微信公众号开发等。通过逐行代码的讲解方式，您将通过这个案例的学习，进一步掌握WeX5开发的方法和技巧。（课程时长3小时）
+				</p>
+				<div style="height: 235px;width: 100%;">
+				<div style="width: 50%;height:235px;float: left;overflow: hidden;">
+					<span style="margin-left: 2em;line-height: 28px;"><a target="_blank" href="http://pan.baidu.com/s/1gdCsGBT">外卖案例讲义</a></span><br />
+					<span style="margin-left: 2em;line-height: 28px;"><a target="_blank" href="http://pan.baidu.com/s/1kT3v7V5">前言-外卖概述</a></span><br />
+					<span style="margin-left: 2em;line-height: 28px;"><a target="_blank" href="http://pan.baidu.com/s/1qW9s2io">外卖数据交互</a></span><br />
+					<span style="margin-left: 2em;line-height: 28px;"><a target="_blank" href="http://pan.baidu.com/s/1sO5e2">第一讲 搭建页面框架</a></span><br />
+					<span style="margin-left: 2em;line-height: 28px;"><a target="_blank" href="http://pan.baidu.com/s/1jGm2CE6">第二讲 开发菜品列表页</a></span><br />
+					<span style="margin-left: 2em;line-height: 28px;"><a target="_blank" href="http://pan.baidu.com/s/1hqybXVu">第三讲 开发购物车页</a></span><br />
+					<span style="margin-left: 2em;line-height: 28px;"><a target="_blank" href="http://pan.baidu.com/s/1eQ0hWwM">第四讲 开发我的信息页</a></span><br />
+					<span style="margin-left: 2em;line-height: 28px;"><a target="_blank" href="http://pan.baidu.com/s/1kT7zqNd">第五讲 开发订单页</a></span><br />
+				</div>
+				<div style="width: 50%;height:235px;float: left;overflow: hidden;">
+					<span style="line-height: 28px;"><a target="_blank" href="http://pan.baidu.com/s/1hqtsoL2">第六讲 细节处理</a></span><br />
+					<span style="line-height: 28px;"><a target="_blank" href="http://pan.baidu.com/s/1qWwzJqs">第七讲 开发服务&调用服务</a></span><br />
+					<span style="line-height: 28px;"><a target="_blank" href="http://pan.baidu.com/s/1ntJ655n">第八讲 了解BaaS</a></span><br />
+					<span style="line-height: 28px;"><a target="_blank" href="http://pan.baidu.com/s/1qW9qVO4">第九讲 开发自己的服务</a></span><br />
+					<span style="line-height: 28px;"><a target="_blank" href="http://pan.baidu.com/s/1i3Epejb">第十讲 在App中支付</a></span><br />
+					<span style="line-height: 28px;"><a target="_blank" href="http://pan.baidu.com/s/1ntvPXJ7">第十一讲 在App中获得地理信息</a></span><br />
+					<span style="line-height: 28px;"><a target="_blank" href="http://pan.baidu.com/s/1eQdNNaE">第十二讲 打包及部署</a></span><br />
+					<span style="line-height: 28px;"><a target="_blank" href="http://pan.baidu.com/s/1gdm99mj">第十三讲 微信公众号</a></span>
+				</div></div>
+			</div>
+			<div id="justep5.4">
+				<span style="font-size: 150%;display: block;margin: 15px 0 10px 31px;">5.4&nbsp;&nbsp;进阶WeX5代码基础和调试</span>
+				<p class="indent">这里将介绍WeX5初级开发的代码基础，包括JS引用、引用CSS和text等，以及如何进行代码调试，为您进一步玩转WeX5打下坚实的基础！</p>
+				<div style="width: 50%;height:65px;float: left;overflow: hidden;">
+					<span style="margin-left: 2em;line-height: 28px;"><a target="_blank" href="http://wex5.com/cn/?p=4222">WeX5如何引用JS</a></span><br />
+					<span style="margin-left: 2em;line-height: 28px;"><a target="_blank" href="http://wex5.com/cn/?p=4426">WeX5如何显示声明依赖</a></span>
+				</div>
+				<div style="width: 50%;height:65px;float: left;overflow: hidden;">
+					<span style="line-height: 28px;"><a target="_blank" href="http://wex5.com/cn/?p=4413">WeX5如何引用css和text</a></span><br />
+					<span style="line-height: 28px;"><a target="_blank" href="http://wex5.com/cn/?p=4496">WeX5代码调试</a></span>
+				</div>
+			</div>
+		</div>
+		<div id="justep6"  style="width: 80%;margin-left: auto;margin-right: auto;">
+			<span style="font-size: 200%;display: block;margin: 15px 0;">6&nbsp;常见问题</span>
+			<p class="indent">在您使用WeX5开发工具时，您可能会遇到一些问题。例如：解压中文乱码、批处理闪退、数据库问题、打包问题等。
+				<a target="_blank" href="http://wex5.com/cn/bbs/thread-66963-1-1.html">请点击这里</a>
+			</p>
+		</div>
+		</div>
+	</body>
+</html>

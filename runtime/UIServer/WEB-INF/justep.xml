@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root> 
+  <update-dir>/update/files</update-dir> 
+  <request-use-base64>false</request-use-base64> 
+  <default-skin>
+  	<pc>desktop</pc>
+  	<mobile></mobile>
+  </default-skin>
+</root>

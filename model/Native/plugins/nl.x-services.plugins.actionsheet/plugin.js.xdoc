@@ -1,0 +1,70 @@
+/**
+	@name nl.x-services.plugins.actionsheet
+	@class 
+	@description 本地选项卡插件
+	@model Native
+	@category EventClass
+	@declareVar plugins.actionsheet
+*/
+
+/**
+	@name nl.x-services.plugins.actionsheet.show
+	@function
+	@param {Object} options 选项
+	@param {Function} successCallback 执行成功的回调
+	@param {Function} errorCallback 执行失败的回调
+ 	@returns {void}
+ 	@description 显示本地选项卡
+*/
+
+/**
+	@name nl.x-services.plugins.actionsheet.hide
+	@function
+	@param {Object} options 选项
+	@param {Function} successCallback 执行成功的回调
+	@param {Function} errorCallback 执行失败的回调
+ 	@returns {void}
+ 	@description 隐藏本地选项卡
+*/
+
+/**
+	@name nl.x-services.plugins.actionsheet.ANDROID_THEMES
+	@property
+ 	@returns {void}
+ 	@description android主题
+*/
+
+/**
+	@name nl.x-services.plugins.actionsheet.ANDROID_THEMES.THEME_TRADITIONAL
+	@constant
+ 	@returns {void}
+ 	@description 常量值1
+*/
+
+/**
+	@name nl.x-services.plugins.actionsheet.ANDROID_THEMES.THEME_HOLO_DARK
+	@constant
+ 	@returns {void}
+ 	@description 常量值2
+*/
+
+/**
+	@name nl.x-services.plugins.actionsheet.ANDROID_THEMES.THEME_HOLO_LIGHT
+	@constant
+ 	@returns {void}
+ 	@description 常量值3
+*/
+
+/**
+	@name nl.x-services.plugins.actionsheet.ANDROID_THEMES.THEME_DEVICE_DEFAULT_DARK
+	@constant
+ 	@returns {void}
+ 	@description 常量值4
+*/
+
+/**
+	@name nl.x-services.plugins.actionsheet.ANDROID_THEMES.THEME_DEVICE_DEFAULT_LIGHT
+	@constant
+ 	@returns {void}
+ 	@description 常量值5
+*/

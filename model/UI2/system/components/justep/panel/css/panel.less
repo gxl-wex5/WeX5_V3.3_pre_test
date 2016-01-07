@@ -1,0 +1,70 @@
+@import '../../../bootstrap/lib/css/mixins.less';
+@import '../../lib/css/flexbox.less.mixins';
+
+@bar-height:         48px;
+@bar-bottom-height:  48px;
+
+.x-panel {
+	overflow: hidden;
+	position: relative;
+	
+	.x-panel-top {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: @bar-height;
+	}
+		
+	.x-panel-bottom {
+		position: absolute;
+		top: auto;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		height: @bar-bottom-height;
+	}
+	
+	.x-panel-content {
+		position: absolute;
+		top: @bar-height;
+		left: 0;
+		right: 0;
+		bottom: @bar-height;
+		height: auto;
+		width: auto;
+		overflow: auto;
+	}	
+}
+
+/* CARD */
+.x-card.panel {
+  border-radius: 0;
+  margin-bottom: 15px;
+  box-shadow: none; 
+  background-color: #fff;
+}
+
+.x-card.panel >.panel-heading {
+  color: #333;
+  background: transparent;
+  padding: 3px 15px;
+}
+
+.x-card.panel >.panel-body > *:last-child {
+  margin-bottom: 0; }
+
+.x-card.panel > .panel-footer {
+  padding: 10px 15px;
+  background: transparent;
+}
+
+.x-card.panel >.panel-heading .panel-title {
+  font-size: 15px;
+  text-transform: uppercase;
+  color: #33b5e5;
+  font-weight: bold;
+  margin: 0;
+  padding: 7px 0;
+  line-height: 20px; 
+}

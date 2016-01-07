@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://cordova.apache.org/ns/plugins/1.0"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	id="me.apla.cordova.plugin.app.preferences"
+	version="0.7.3">
+
+	<name>AppPreferences</name>
+	<description>Application preferences plugin and preference pane generator</description>
+	<license>Apache</license>
+	<keywords>preferences, settings</keywords>
+	<repo>https://github.com/apla/me.apla.cordova.app-preferences</repo>
+	<issue>https://github.com/apla/me.apla.cordova.app-preferences/issues</issue>
+
+	<js-module src="www/apppreferences.js">
+		<clobbers target="plugins.appPreferences" />
+	</js-module>
+	
+	<!-- android -->
+	<platform name="android">
+		<config-file target="res/xml/config.xml" parent="/*">
+			<feature name="AppPreferences" >
+				<param name="android-package" value="me.apla.cordova.AppPreferences"/>
+			</feature>
+		</config-file>
+		<config-file target="AndroidManifest.xml" parent="/manifest/application">
+			<activity android:name="me.apla.cordova.AppPreferencesActivity" />
+		</config-file>
+		<source-file src="src/android/AppPreferences.java" target-dir="src/me/apla/cordova" />
+	</platform>
+
+	<!-- ios -->
+	<platform name="ios">
+		<config-file target="config.xml" parent="/*">
+			<feature name="AppPreferences">
+				<param name="ios-package" value="AppPreferences"/>
+			</feature>
+		</config-file>
+		<header-file src="src/ios/AppPreferences.h" />
+		<source-file src="src/ios/AppPreferences.m" />
+	</platform>
+
+</plugin>

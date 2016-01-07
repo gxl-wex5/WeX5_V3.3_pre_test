@@ -1,0 +1,45 @@
+/**
+	@name net.yoik.cordova.plugins.screenorientation
+	@class 
+	@description 屏幕旋转插件
+	@model Native
+	@category EventClass
+*/
+
+/**
+	@name net.yoik.cordova.plugins.screenorientation.lockOrientation
+	@function
+	@param {String} orientation 屏幕锁定方向，参数取值范围：“portrait”、“landscape”
+ 	@returns {void}
+ 	@description 锁定屏幕方向
+*/
+
+/**
+	@name net.yoik.cordova.plugins.screenorientation.unlockOrientation
+	@function
+ 	@returns {void}
+ 	@description 取消屏幕锁定方向，屏幕方向跟随系统
+*/
+
+/**
+	@name net.yoik.cordova.plugins.screenorientation.orientation
+	@property
+ 	@returns {void}
+ 	@description 获取屏幕方向
+*/
+
+/**
+	@name net.yoik.cordova.plugins.screenorientation#plugins
+	@class 
+	@description 
+	@model Native
+	@category EventClass
+	@declareVar window.plugins
+*/
+
+/**
+   @name net.yoik.cordova.plugins.screenorientation#plugins.screen
+   @property
+   @type net.yoik.cordova.plugins.screenorientation
+   @description 屏幕旋转插件
+*/

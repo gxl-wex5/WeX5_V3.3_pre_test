@@ -1,0 +1,770 @@
+<?xml version="1.0"?>
+<project name="x5 app mananger">
+
+	<!-- 系统环境变量 -->
+	<property name="userKeychainDir" value="${user.home}/Library/Keychains" />
+	<property name="ProvisioningProfilesDir" value="${user.home}/Library/MobileDevice/Provisioning Profiles" />
+	<property name="systemKeychainDir" value="/Library/Keychains" />
+
+	<!-- 基础环境变量 -->
+	<condition property="exe" value=".exe" else="">
+		<os family="windows" />
+	</condition>
+	<condition property="javaPath" value="jdk1.7-x64/Contents/Home" else="jre1.7">
+		<os family="mac" />
+	</condition>
+
+	<property name="justepHome" value="@justepHome@" />
+	<property name="antLibDir" value="@antLibDir@" />
+	<property name="nativeDir" value="@nativeDir@" />
+	<property name="templateDir" value="${nativeDir}/templates/normal" />
+	<property name="templateSourceDir" value="${nativeDir}/templates/advanced" />
+	<property name="pluginsDir" value="${nativeDir}/plugins" />
+	<property name="javaHome" value="${justepHome}/java/${javaPath}" />
+	<property name="androidSDK" value="${justepHome}/tools/adt-sdk" />
+	<property name="nodeBin" value="${justepHome}/node" />
+	<property name="nodePath" value="${justepHome}/tools/cordova/node_modules" />
+	<property name="cordovaPath" value="${justepHome}/tools/cordova" />
+	<property name="antHome" value="${justepHome}/tools/apache-ant" />
+
+	<property name="session" value="@session@" />
+
+	<!-- 应用基本信息 app.project -->
+	<property name="appID" value="@appID@" />
+	<property name="projectName" value="@projectName@" />
+	<property name="mode" value="@mode@" />
+	<property name="sourceMode" value="@sourceMode@" />
+	<property name="serverURL" value="@serverURL@" />
+	<property name="webPath" value="@webPath@" />
+	<property name="indexURL" value="@indexURL@" />
+	<property name="uiResDirs" value="@uiResDirs@" />
+	<property name="extBrowser" value="@extBrowser@" />
+	<property name="autoSelectPlugins" value="@autoSelectPlugins@" />
+	<property name="plugins" value="@plugins@" />
+	<property name="pluginsConfig" value="@pluginsConfig@" />
+	<property name="resEncryption" value="@resEncryption@" />
+
+	<!-- 应用基本信息 config.xml -->
+	<property name="packageName" value="@packageName@" />
+	<property name="appName" value="@appName@" />
+	<property name="version" value="@version@" />
+	<!-- property startURL=${serverURL}${indexURL} -->
+	<property name="description" value="@description@" />
+	<property name="orientation" value="@orientation@" />
+
+	<!-- 开发者信息 app.project、config.xml -->
+	<property name="province" value="@province@" />
+	<property name="area" value="@area@" />
+	<property name="company" value="@company@" />
+	<property name="author" value="@author@" />
+	<property name="homePage" value="@homePage@" />
+	<property name="email" value="@email@" />
+	<property name="genAndroid" value="@genAndroid@" />
+	<property name="genIOSDev" value="@genIOSDev@" />
+	<property name="genIOSDis" value="@genIOSDis@" />
+	<property name="androidPassword" value="@androidPassword@" />
+	<property name="iosDevloperPassword" value="@iosDevloperPassword@" />
+	<property name="iosDistributionPassword" value="@iosDistributionPassword@" />
+
+	<!-- 打包相关设置 -->
+	<property name="platform" value="@platform@" />
+	<property name="includeUIRes" value="@includeUIRes@" />
+	<property name="compileUI" value="@compileUI@" />
+	<property name="releaseMode" value="@releaseMode@" />
+	<property name="useProxyBuilderServer" value="@useProxyBuilderServer@" />
+	<property name="proxyBuilderServer" value="@proxyBuilderServer@" />
+	<property name="outputSrc" value="@outputSrc@" />
+	<property name="outputProjectName" value="@outputProjectName@" />
+
+	<!-- 编辑运行时信息 -->
+	<property name="genAndroidKey" value="@genAndroidKey@" />
+
+	<!-- 打包运行时信息 -->
+	<property name="appBuilderServer" value="@appBuilderServer@" />
+
+	<property name="targetDir" value="${nativeDir}/${projectName}" />
+	<property file="${targetDir}/build.properties" />
+	<property name="buildSrcDir" value="${targetDir}/build/src" />
+	<property name="buildPluginsDir" value="${targetDir}/build/plugins" />
+
+	<property environment="env" />
+	<condition property="envPath" value="${env.windir}:${env.windir}/system32:${env.Path}" else="${env.PATH}">
+		<os family="windows" />
+	</condition>
+
+	<path id="antClasspath">
+		<fileset dir="${antLibDir}">
+			<include name="**/*.jar" />
+		</fileset>
+		<pathelement location="${antLibDir}/task" />
+	</path>
+	<typedef resource="com/justep/tools/ant/task/antlib.xml" classpathref="antClasspath" />
+
+	<condition property="genAndroidKeyNeeded">
+		<equals arg1="${genAndroidKey}" arg2="true" />
+	</condition>
+
+	<condition property="buildAndroidNeeded">
+		<contains string="${platform}" substring="android" casesensitive="false" />
+	</condition>
+
+	<condition property="buildIOSNeeded">
+		<contains string="${platform}" substring="ios" casesensitive="false" />
+	</condition>
+
+	<condition property="createNewSrcProjectNeeded">
+		<equals arg1="${outputSrc}" arg2="true" />
+	</condition>
+
+	<condition property="isSourceMode">
+		<equals arg1="${sourceMode}" arg2="true" />
+	</condition>
+
+	<condition property="copyUIResNeeded">
+		<equals arg1="${includeUIRes}" arg2="true" />
+	</condition>
+
+	<target name="createApp" depends="makeAppDir, copyResources, saveProject, updateImage, updateIOSCer, genAndrodKey" description="新建应用" />
+	<target name="editApp" depends="saveProject, updateImage, updateIOSCer, genAndrodKey" description="编辑应用" />
+
+	<target name="makeAppDir" description="创建工程文件夹">
+		<delete includeEmptyDirs="true">
+			<fileset dir="${targetDir}">
+				<exclude name="log/build.log" />
+			</fileset>
+		</delete>
+
+		<mkdir dir="${targetDir}" />
+	</target>
+
+	<target name="copyResources" description="复制工程模版">
+		<copy todir="${targetDir}" overwrite="true">
+			<fileset dir="${templateDir}">
+				<exclude name="app.project" />
+				<exclude name="build.xml" />
+				<exclude name="x5*.*.t" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="saveProject" description="保存工程">
+		<saveProject targetDir="${targetDir}" />
+	</target>
+
+	<target name="updateImage" depends="updateNewImage, checkImageExist, updateIcon, updateSplash-land, updateSplash-port" description="更新图片" />
+
+	<target name="updateNewImage" description="复制图片到工程目录">
+		<copy todir="${targetDir}" overwrite="true" failonerror="false" quiet="true">
+			<fileset dir="${nativeDir}/.workspace/${appID}/upload">
+				<include name="icon.png" />
+				<include name="splash-land.png" />
+				<include name="splash-port.png" />
+			</fileset>
+		</copy>
+
+		<delete quiet="true" failonerror="false">
+			<fileset dir="${nativeDir}/.workspace/${appID}/upload">
+				<include name="icon.png" />
+				<include name="splash-land.png" />
+				<include name="splash-port.png" />
+			</fileset>
+		</delete>
+	</target>
+
+	<target name="checkImageExist" description="检查是否有图片更新">
+		<available property="iconIsExist" file="${targetDir}/icon.png" />
+		<available property="splash-landIsExist" file="${targetDir}/splash-land.png" />
+		<available property="splash-portIsExist" file="${targetDir}/splash-port.png" />
+	</target>
+
+	<target name="updateIcon" if="iconIsExist" description="更新应用图标">
+		<!-- android -->
+		<mkdir dir="${targetDir}/platforms/android/res/drawable-ldpi" />
+		<exec executable="${antLibDir}/convert${exe}" failonerror="true">
+			<arg value="${targetDir}/icon.png" />
+			<arg value="-resize" />
+			<arg value="36x36!" />
+			<arg value="${targetDir}/platforms/android/res/drawable-ldpi/icon.png" />
+			<env key="DYLD_LIBRARY_PATH" value="${antLibDir}" />
+		</exec>
+
+		<mkdir dir="${targetDir}/platforms/android/res/drawable-mdpi" />
+		<exec executable="${antLibDir}/convert${exe}" failonerror="true">
+			<arg value="${targetDir}/icon.png" />
+			<arg value="-resize" />
+			<arg value="48x48!" />
+			<arg value="${targetDir}/platforms/android/res/drawable-mdpi/icon.png" />
+			<env key="DYLD_LIBRARY_PATH" value="${antLibDir}" />
+		</exec>
+
+		<mkdir dir="${targetDir}/platforms/android/res/drawable-hdpi" />
+		<exec executable="${antLibDir}/convert${exe}" failonerror="true">
+			<arg value="${targetDir}/icon.png" />
+			<arg value="-resize" />
+			<arg value="72x72!" />
+			<arg value="${targetDir}/platforms/android/res/drawable-hdpi/icon.png" />
+			<env key="DYLD_LIBRARY_PATH" value="${antLibDir}" />
+		</exec>
+
+		<mkdir dir="${targetDir}/platforms/android/res/drawable-xhdpi" />
+		<exec executable="${antLibDir}/convert${exe}" failonerror="true">
+			<arg value="${targetDir}/icon.png" />
+			<arg value="-resize" />
+			<arg value="96x96!" />
+			<arg value="${targetDir}/platforms/android/res/drawable-xhdpi/icon.png" />
+			<env key="DYLD_LIBRARY_PATH" value="${antLibDir}" />
+		</exec>
+
+		<copy file="${targetDir}/platforms/android/res/drawable-xhdpi/icon.png" tofile="${targetDir}/platforms/android/res/drawable/icon.png" overwrite="true" />
+
+		<!-- ios -->
+		<mkdir dir="${targetDir}/platforms/ios/X5/Resources/icons" />
+
+		<exec executable="${antLibDir}/convert${exe}" failonerror="true">
+			<arg value="${targetDir}/icon.png" />
+			<arg value="-resize" />
+			<arg value="40x40!" />
+			<arg value="${targetDir}/platforms/ios/X5/Resources/icons/icon-40.png" />
+			<env key="DYLD_LIBRARY_PATH" value="${antLibDir}" />
+		</exec>
+
+		<exec executable="${antLibDir}/convert${exe}" failonerror="true">
+			<arg value="${targetDir}/icon.png" />
+			<arg value="-resize" />
+			<arg value="80x80!" />
+			<arg value="${targetDir}/platforms/ios/X5/Resources/icons/icon-40@2x.png" />
+			<env key="DYLD_LIBRARY_PATH" value="${antLibDir}" />
+		</exec>
+
+		<exec executable="${antLibDir}/convert${exe}" failonerror="true">
+			<arg value="${targetDir}/icon.png" />
+			<arg value="-resize" />
+			<arg value="50x50!" />
+			<arg value="${targetDir}/platforms/ios/X5/Resources/icons/icon-50.png" />
+			<env key="DYLD_LIBRARY_PATH" value="${antLibDir}" />
+		</exec>
+
+		<exec executable="${antLibDir}/convert${exe}" failonerror="true">
+			<arg value="${targetDir}/icon.png" />
+			<arg value="-resize" />
+			<arg value="100x100!" />
+			<arg value="${targetDir}/platforms/ios/X5/Resources/icons/icon-50@2x.png" />
+			<env key="DYLD_LIBRARY_PATH" value="${antLibDir}" />
+		</exec>
+
+		<exec executable="${antLibDir}/convert${exe}" failonerror="true">
+			<arg value="${targetDir}/icon.png" />
+			<arg value="-resize" />
+			<arg value="60x60!" />
+			<arg value="${targetDir}/platforms/ios/X5/Resources/icons/icon-60.png" />
+			<env key="DYLD_LIBRARY_PATH" value="${antLibDir}" />
+		</exec>
+
+		<exec executable="${antLibDir}/convert${exe}" failonerror="true">
+			<arg value="${targetDir}/icon.png" />
+			<arg value="-resize" />
+			<arg value="120x120!" />
+			<arg value="${targetDir}/platforms/ios/X5/Resources/icons/icon-60@2x.png" />
+			<env key="DYLD_LIBRARY_PATH" value="${antLibDir}" />
+		</exec>
+
+		<exec executable="${antLibDir}/convert${exe}" failonerror="true">
+			<arg value="${targetDir}/icon.png" />
+			<arg value="-resize" />
+			<arg value="180x180!" />
+			<arg value="${targetDir}/platforms/ios/X5/Resources/icons/icon-60@3x.png" />
+			<env key="DYLD_LIBRARY_PATH" value="${antLibDir}" />
+		</exec>
+
+		<exec executable="${antLibDir}/convert${exe}" failonerror="true">
+			<arg value="${targetDir}/icon.png" />
+			<arg value="-resize" />
+			<arg value="72x72!" />
+			<arg value="${targetDir}/platforms/ios/X5/Resources/icons/icon-72.png" />
+			<env key="DYLD_LIBRARY_PATH" value="${antLibDir}" />
+		</exec>
+
+		<exec executable="${antLibDir}/convert${exe}" failonerror="true">
+			<arg value="${targetDir}/icon.png" />
+			<arg value="-resize" />
+			<arg value="144x144!" />
+			<arg value="${targetDir}/platforms/ios/X5/Resources/icons/icon-72@2x.png" />
+			<env key="DYLD_LIBRARY_PATH" value="${antLibDir}" />
+		</exec>
+
+		<exec executable="${antLibDir}/convert${exe}" failonerror="true">
+			<arg value="${targetDir}/icon.png" />
+			<arg value="-resize" />
+			<arg value="76x76!" />
+			<arg value="${targetDir}/platforms/ios/X5/Resources/icons/icon-76.png" />
+			<env key="DYLD_LIBRARY_PATH" value="${antLibDir}" />
+		</exec>
+
+		<exec executable="${antLibDir}/convert${exe}" failonerror="true">
+			<arg value="${targetDir}/icon.png" />
+			<arg value="-resize" />
+			<arg value="152x152!" />
+			<arg value="${targetDir}/platforms/ios/X5/Resources/icons/icon-76@2x.png" />
+			<env key="DYLD_LIBRARY_PATH" value="${antLibDir}" />
+		</exec>
+
+		<exec executable="${antLibDir}/convert${exe}" failonerror="true">
+			<arg value="${targetDir}/icon.png" />
+			<arg value="-resize" />
+			<arg value="29x29!" />
+			<arg value="${targetDir}/platforms/ios/X5/Resources/icons/icon-small.png" />
+			<env key="DYLD_LIBRARY_PATH" value="${antLibDir}" />
+		</exec>
+
+		<exec executable="${antLibDir}/convert${exe}" failonerror="true">
+			<arg value="${targetDir}/icon.png" />
+			<arg value="-resize" />
+			<arg value="58x58!" />
+			<arg value="${targetDir}/platforms/ios/X5/Resources/icons/icon-small@2x.png" />
+			<env key="DYLD_LIBRARY_PATH" value="${antLibDir}" />
+		</exec>
+
+		<exec executable="${antLibDir}/convert${exe}" failonerror="true">
+			<arg value="${targetDir}/icon.png" />
+			<arg value="-resize" />
+			<arg value="57x57!" />
+			<arg value="${targetDir}/platforms/ios/X5/Resources/icons/icon.png" />
+			<env key="DYLD_LIBRARY_PATH" value="${antLibDir}" />
+		</exec>
+
+		<exec executable="${antLibDir}/convert${exe}" failonerror="true">
+			<arg value="${targetDir}/icon.png" />
+			<arg value="-resize" />
+			<arg value="114x114!" />
+			<arg value="${targetDir}/platforms/ios/X5/Resources/icons/icon@2x.png" />
+			<env key="DYLD_LIBRARY_PATH" value="${antLibDir}" />
+		</exec>
+	</target>
+
+	<target name="updateSplash-land" if="splash-landIsExist" description="更新横向欢迎图片">
+		<!-- android -->
+		<mkdir dir="${targetDir}/platforms/android/res/drawable-land-ldpi" />
+		<exec executable="${antLibDir}/convert${exe}" failonerror="true">
+			<arg value="${targetDir}/splash-land.png" />
+			<arg value="-resize" />
+			<arg value="320x240!" />
+			<arg value="${targetDir}/platforms/android/res/drawable-land-ldpi/screen.png" />
+			<env key="DYLD_LIBRARY_PATH" value="${antLibDir}" />
+		</exec>
+
+		<mkdir dir="${targetDir}/platforms/android/res/drawable-land-mdpi" />
+		<exec executable="${antLibDir}/convert${exe}" failonerror="true">
+			<arg value="${targetDir}/splash-land.png" />
+			<arg value="-resize" />
+			<arg value="480x320!" />
+			<arg value="${targetDir}/platforms/android/res/drawable-land-mdpi/screen.png" />
+			<env key="DYLD_LIBRARY_PATH" value="${antLibDir}" />
+		</exec>
+
+		<mkdir dir="${targetDir}/platforms/android/res/drawable-land-hdpi" />
+		<exec executable="${antLibDir}/convert${exe}" failonerror="true">
+			<arg value="${targetDir}/splash-land.png" />
+			<arg value="-resize" />
+			<arg value="800x480!" />
+			<arg value="${targetDir}/platforms/android/res/drawable-land-hdpi/screen.png" />
+			<env key="DYLD_LIBRARY_PATH" value="${antLibDir}" />
+		</exec>
+
+		<mkdir dir="${targetDir}/platforms/android/res/drawable-land-xhdpi" />
+
+		<exec executable="${antLibDir}/convert${exe}" failonerror="true">
+			<arg value="${targetDir}/splash-land.png" />
+			<arg value="-resize" />
+			<arg value="1280x720!" />
+			<arg value="${targetDir}/platforms/android/res/drawable-land-xhdpi/screen.png" />
+			<env key="DYLD_LIBRARY_PATH" value="${antLibDir}" />
+		</exec>
+
+		<!-- ios -->
+		<mkdir dir="${targetDir}/platforms/ios/X5/Resources/splash" />
+
+		<exec executable="${antLibDir}/convert${exe}" failonerror="true">
+			<arg value="${targetDir}/splash-port.png" />
+			<arg value="-resize" />
+			<arg value="2208x1242!" />
+			<arg value="${targetDir}/platforms/ios/X5/Resources/splash/Default-Landscape-736h.png" />
+			<env key="DYLD_LIBRARY_PATH" value="${antLibDir}" />
+		</exec>
+
+		<exec executable="${antLibDir}/convert${exe}" failonerror="true">
+			<arg value="${targetDir}/splash-land.png" />
+			<arg value="-resize" />
+			<arg value="1024x768!" />
+			<arg value="${targetDir}/platforms/ios/X5/Resources/splash/Default-Landscape~ipad.png" />
+			<env key="DYLD_LIBRARY_PATH" value="${antLibDir}" />
+		</exec>
+	</target>
+
+	<target name="updateSplash-port" if="splash-portIsExist" description="更新纵向欢迎图片">
+		<!-- android -->
+		<mkdir dir="${targetDir}/platforms/android/res/drawable-port-ldpi" />
+		<exec executable="${antLibDir}/convert${exe}" failonerror="true">
+			<arg value="${targetDir}/splash-port.png" />
+			<arg value="-resize" />
+			<arg value="240x320!" />
+			<arg value="${targetDir}/platforms/android/res/drawable-port-ldpi/screen.png" />
+			<env key="DYLD_LIBRARY_PATH" value="${antLibDir}" />
+		</exec>
+
+		<mkdir dir="${targetDir}/platforms/android/res/drawable-port-mdpi" />
+		<exec executable="${antLibDir}/convert${exe}" failonerror="true">
+			<arg value="${targetDir}/splash-port.png" />
+			<arg value="-resize" />
+			<arg value="320x480!" />
+			<arg value="${targetDir}/platforms/android/res/drawable-port-mdpi/screen.png" />
+			<env key="DYLD_LIBRARY_PATH" value="${antLibDir}" />
+		</exec>
+
+		<mkdir dir="${targetDir}/platforms/android/res/drawable-port-hdpi" />
+		<exec executable="${antLibDir}/convert${exe}" failonerror="true">
+			<arg value="${targetDir}/splash-port.png" />
+			<arg value="-resize" />
+			<arg value="480x800!" />
+			<arg value="${targetDir}/platforms/android/res/drawable-port-hdpi/screen.png" />
+			<env key="DYLD_LIBRARY_PATH" value="${antLibDir}" />
+		</exec>
+
+		<mkdir dir="${targetDir}/platforms/android/res/drawable-port-xhdpi" />
+		<exec executable="${antLibDir}/convert${exe}" failonerror="true">
+			<arg value="${targetDir}/splash-port.png" />
+			<arg value="-resize" />
+			<arg value="720x1280!" />
+			<arg value="${targetDir}/platforms/android/res/drawable-port-xhdpi/screen.png" />
+			<env key="DYLD_LIBRARY_PATH" value="${antLibDir}" />
+		</exec>
+
+		<!-- ios -->
+		<mkdir dir="${targetDir}/platforms/ios/X5/Resources/splash" />
+
+		<exec executable="${antLibDir}/convert${exe}" failonerror="true">
+			<arg value="${targetDir}/splash-port.png" />
+			<arg value="-resize" />
+			<arg value="1242x2208!" />
+			<arg value="${targetDir}/platforms/ios/X5/Resources/splash/Default-736h.png" />
+			<env key="DYLD_LIBRARY_PATH" value="${antLibDir}" />
+		</exec>
+
+		<exec executable="${antLibDir}/convert${exe}" failonerror="true">
+			<arg value="${targetDir}/splash-port.png" />
+			<arg value="-resize" />
+			<arg value="750x1334!" />
+			<arg value="${targetDir}/platforms/ios/X5/Resources/splash/Default-667h.png" />
+			<env key="DYLD_LIBRARY_PATH" value="${antLibDir}" />
+		</exec>
+
+		<exec executable="${antLibDir}/convert${exe}" failonerror="true">
+			<arg value="${targetDir}/splash-port.png" />
+			<arg value="-resize" />
+			<arg value="640x1136!" />
+			<arg value="${targetDir}/platforms/ios/X5/Resources/splash/Default-568h@2x~iphone.png" />
+			<env key="DYLD_LIBRARY_PATH" value="${antLibDir}" />
+		</exec>
+
+		<exec executable="${antLibDir}/convert${exe}" failonerror="true">
+			<arg value="${targetDir}/splash-port.png" />
+			<arg value="-resize" />
+			<arg value="640x960!" />
+			<arg value="${targetDir}/platforms/ios/X5/Resources/splash/Default@2x~iphone.png" />
+			<env key="DYLD_LIBRARY_PATH" value="${antLibDir}" />
+		</exec>
+
+		<exec executable="${antLibDir}/convert${exe}" failonerror="true">
+			<arg value="${targetDir}/splash-port.png" />
+			<arg value="-resize" />
+			<arg value="768x1024!" />
+			<arg value="${targetDir}/platforms/ios/X5/Resources/splash/Default-Portrait~ipad.png" />
+			<env key="DYLD_LIBRARY_PATH" value="${antLibDir}" />
+		</exec>
+
+		<exec executable="${antLibDir}/convert${exe}" failonerror="true">
+			<arg value="${targetDir}/splash-port.png" />
+			<arg value="-resize" />
+			<arg value="320x480!" />
+			<arg value="${targetDir}/platforms/ios/X5/Resources/splash/Default~iphone.png" />
+			<env key="DYLD_LIBRARY_PATH" value="${antLibDir}" />
+		</exec>
+	</target>
+
+	<target name="updateIOSCer" description="更新ios证书">
+		<copy todir="${targetDir}" overwrite="true" failonerror="false" quiet="true">
+			<fileset dir="${nativeDir}/.workspace/${appID}/upload">
+				<include name="ios.developer.mobileprovision" />
+				<include name="ios.developer.p12" />
+				<include name="ios.distribution.mobileprovision" />
+				<include name="ios.distribution.p12" />
+			</fileset>
+		</copy>
+
+		<delete quiet="true" failonerror="false">
+			<fileset dir="${nativeDir}/.workspace/${appID}/upload">
+				<include name="ios.developer.mobileprovision" />
+				<include name="ios.developer.p12" />
+				<include name="ios.distribution.mobileprovision" />
+				<include name="ios.distribution.p12" />
+			</fileset>
+		</delete>
+	</target>
+
+	<target name="genAndrodKey" if="genAndroidKeyNeeded" description="生成android证书">
+		<delete file="${targetDir}/android.keystore" />
+
+		<!-- keytool -genkey -alias android -keypass 123456 -keyalg RSA -keysize 1024 -validity 3650 -keystore android.keystore -storepass 123456 -dname "CN=Debugger, OU=X5, O=X5, L=BJ, ST=BJ, C=CN" -->
+		<exec executable="${javaHome}/bin/keytool${exe}" failonerror="true">
+			<arg value="-genkey" />
+			<arg value="-alias" />
+			<arg value="android" />
+			<arg value="-keypass" />
+			<arg value="${androidPassword}" />
+			<arg value="-keyalg" />
+			<arg value="RSA" />
+			<arg value="-keysize" />
+			<arg value="1024" />
+			<arg value="-validity" />
+			<arg value="3650" />
+			<arg value="-keystore" />
+			<arg value="${targetDir}/android.keystore" />
+			<arg value="-storepass" />
+			<arg value="${androidPassword}" />
+			<arg value="-dname" />
+			<arg value="CN=${author}, OU=${company}, O=${company}, L=${area}, ST=${province}, C=CN" />
+		</exec>
+	</target>
+
+	<target name="compileUI" description="编译UI资源">
+		<delete dir="${targetDir}/www" />
+		<mkdir dir="${targetDir}/www${webPath}" />
+
+		<!-- setProperty: usedPlugins -->
+		<compileUI justepHome="${justepHome}" mode="${mode}" dirs="${uiResDirs}" targetDir="${targetDir}/www" webPath="${webPath}" indexURL="${indexURL}" />
+
+		<propertyfile file="${targetDir}/build.properties">
+			<entry key="usedPlugins" value="${usedPlugins}" />
+		</propertyfile>
+	</target>
+
+	<target name="cleanBuildSrc" description="清除编译环境">
+		<delete dir="${buildSrcDir}" />
+		<mkdir dir="${buildSrcDir}" />
+	</target>
+
+	<target name="copySourceTemplate" unless="isSourceMode" description="复制模版工程">
+		<copy todir="${buildSrcDir}" overwrite="true">
+			<fileset dir="${templateSourceDir}" />
+		</copy>
+	</target>
+
+	<target name="copySource" description="复制工程">
+		<copy todir="${buildSrcDir}" overwrite="true">
+			<fileset dir="${targetDir}">
+				<include name="platforms/" />
+				<include name="config.xml" />
+				<include name="android.keystore" />
+				<include name="ios.*" />
+			</fileset>
+		</copy>
+		
+		<mkdir dir="${buildSrcDir}/www" />
+	</target>
+
+	<target name="copyPlugins" if="isSourceMode" description="复制插件">
+		<copy todir="${buildSrcDir}" overwrite="true">
+			<fileset dir="${targetDir}">
+				<include name="plugins/" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="updateProject" description="更新工程信息">
+		<chmod dir="${buildSrcDir}/platforms/android/cordova" perm="ugo+rx" includes="*" />
+		<chmod dir="${buildSrcDir}/platforms/ios/cordova" perm="ugo+rx" includes="*" />
+		<chmod dir="${buildSrcDir}/platforms/android/cordova" perm="ugo+rx" includes="**/*.sh" />
+		<chmod dir="${buildSrcDir}/platforms/ios/cordova" perm="ugo+rx" includes="**/*.sh" />
+
+		<!-- setProperty: iosCompileType, iosPassword -->
+		<updateSource justepHome="${justepHome}" targetDir="${buildSrcDir}">
+			<env key="NODE_PATH" value="${nodeBin}" />
+			<env key="PATH" path="${justepHome}/node:${envPath}" />
+		</updateSource>
+	</target>
+
+	<target name="copyPlugin">
+		<copy todir="${buildPluginsDir}/${copyPluginID}" overwrite="true">
+			<fileset dir="${copyPluginSrcDir}" />
+		</copy>
+	</target>
+
+	<target name="addPlugins" unless="isSourceMode" description="增加插件">
+		<delete dir="${buildPluginsDir}" />
+		<mkdir dir="${buildPluginsDir}" />
+
+		<!-- setProperty: copyPluginID, copyPluginSrcDir -->
+		<addPlugins justepHome="${justepHome}" srcDir="${targetDir}" targetDir="${buildSrcDir}" plugins="${plugins}" autoSelectPlugins="${autoSelectPlugins}" usedPlugins="${usedPlugins}" pluginsConfig="${pluginsConfig}">
+			<env key="NODE_PATH" value="${nodePath}" />
+			<env key="PATH" path="${nodeBin}:${envPath}" />
+		</addPlugins>
+	</target>
+
+	<target name="processWWW" if="copyUIResNeeded" description="加密UI资源">
+		<available file="${targetDir}/www${webPath}/index.html" property="indexExists" />
+		<fail unless="indexExists" message="入口文件index.html不存在。请检查是否选择了需要发布的UI资源，并在生成App包时选择了“重新编译使用到的UI资源”" />
+
+		<!-- index.html 设置 mode，打入app时在处理，方便http服务方式复制部署 -->
+		<mkdir dir="${buildSrcDir}/www-tmp${webPath}" />
+		<copy file="${targetDir}/www${webPath}/index.html" todir="${buildSrcDir}/www-tmp${webPath}" overwrite="true" encoding="utf-8">
+			<filterset>
+				<filter token="appMode" value="${mode}" />
+			</filterset>
+		</copy>
+
+		<!-- setProperty: resPassword -->
+		<processWWW dir="${targetDir}/www" exdir="${buildSrcDir}/www-tmp" targetDir="${buildSrcDir}/www" resEncryption="${resEncryption}" />
+
+		<delete>
+			<fileset dir="${buildSrcDir}/www${webPath}">
+				<include name="**/*_in_server" />
+				<include name="**/*_in_server.*" />
+			</fileset>
+			<dirset dir="${buildSrcDir}/www${webPath}">
+				<include name="**/*_in_server" />
+				<include name="**/*_in_server.*" />
+			</dirset>
+		</delete>
+
+		<propertyfile file="${targetDir}/build.properties">
+			<entry key="resPassword" value="${resPassword}" />
+		</propertyfile>
+	</target>
+
+	<target name="createNewSrcProject" if="createNewSrcProjectNeeded" description="创建源代码工程">
+		<delete dir="${nativeDir}/${outputProjectName}" />
+		<copy todir="${nativeDir}/${outputProjectName}" overwrite="true">
+			<fileset dir="${buildSrcDir}" />
+			<fileset dir="${targetDir}">
+				<include name="app.project" />
+				<include name="build.properties" />
+			</fileset>
+		</copy>
+		<updateSourceProject targetDir="${nativeDir}/${outputProjectName}" />
+	</target>
+
+	<target name="prepareSource" depends="cleanBuildSrc, copySourceTemplate, copySource, copyPlugins, processWWW, updateProject, addPlugins, createNewSrcProject" description="生成源代码" />
+
+	<target name="prepareAndroidBuild" if="buildAndroidNeeded" description="android应用环境准备">
+		<propertyfile file="${buildSrcDir}/platforms/android/ant.properties">
+			<entry key="key.store" value="android.keystore" />
+			<entry key="key.store.password" value="${androidPassword}" />
+			<entry key="key.alias" value="android" />
+			<entry key="key.alias.password" value="${androidPassword}" />
+		</propertyfile>
+
+		<copy file="${buildSrcDir}/android.keystore" tofile="${buildSrcDir}/platforms/android/android.keystore" overwrite="true" />
+	</target>
+
+	<target name="prepareIOSBuild" if="buildIOSNeeded" description="ios应用环境准备">
+		<exec dir="${buildSrcDir}" executable="security" failonerror="true">
+			<arg value="import" />
+			<arg value="ios.${iosCompileType}.p12" />
+			<arg value="-k" />
+			<arg value="${userKeychainDir}/login.keychain" />
+			<arg value="-P" />
+			<arg value="${iosPassword}" />
+			<arg value="-T" />
+			<arg value="/usr/bin/codesign" />
+		</exec>
+
+		<copy file="${buildSrcDir}/ios.${iosCompileType}.mobileprovision" tofile="${ProvisioningProfilesDir}/${appID}.mobileprovision" overwrite="true" />
+	</target>
+
+	<target name="buildAndroid" if="buildAndroidNeeded" description="生成android应用包">
+		<mkdir dir="${targetDir}/dist" />
+
+		<exec dir="${buildSrcDir}" executable="${nodeBin}/node${exe}" failonerror="true">
+			<arg value="${cordovaPath}/bin/cordova" />
+			<arg value="build" />
+			<arg value="--${releaseMode}" />
+			<arg value="android" />
+			<env key="JAVA_HOME" value="${javaHome}" />
+			<env key="CLASSPATH" value="" />
+			<env key="ANT_HOME" value="${antHome}" />
+			<env key="ANDROID_SDK" value="${androidSDK}" />
+			<env key="ANDROID_HOME" value="${androidSDK}" />
+			<env key="NODE_PATH" value="${cordovaPath}/node_modules" />
+			<env key="PATH" path="${nodeBin}:${androidSDK}/platform-tools:${androidSDK}/tools:${antHome}/bin:${javaHome}/bin:${envPath}" />
+		</exec>
+
+		<copy file="${buildSrcDir}/platforms/android/bin/X5-${releaseMode}.apk" tofile="${targetDir}/dist/${appName}.apk" overwrite="true" />
+	</target>
+
+	<target name="buildIOS" if="buildIOSNeeded" description="生成ios应用包">
+		<mkdir dir="${targetDir}/dist" />
+
+		<exec dir="${buildSrcDir}" executable="${nodeBin}/node${exe}" failonerror="true">
+			<arg value="${cordovaPath}/bin/cordova" />
+			<arg value="build" />
+			<arg value="--${releaseMode}" />
+			<arg value="--device" />
+			<arg value="ios" />
+			<env key="NODE_PATH" value="${nodePath}" />
+			<env key="PATH" path="${nodeBin}:${envPath}" />
+		</exec>
+
+		<exec dir="${buildSrcDir}/platforms/ios/build/device" executable="xcrun" failonerror="true">
+			<arg value="-sdk" />
+			<arg value="iphoneos" />
+			<arg value="PackageApplication" />
+			<arg value="-v" />
+			<arg value="./${appName}.app" />
+			<arg value="-o" />
+			<arg value="${targetDir}/dist/${appName}.ipa" />
+		</exec>
+
+	</target>
+
+	<target name="pack" depends="prepareAndroidBuild, prepareIOSBuild, buildAndroid, buildIOS" description="打包" />
+
+	<target name="packUseAppBuilderServer" description="使用代理服务生成应用包">
+		<echo level="info">压缩应用源代码......</echo>
+		<zip destfile="${buildSrcDir}.zip" encoding="UTF-8">
+			<fileset dir="${buildSrcDir}" />
+			<fileset dir="${targetDir}">
+				<include name="app.project" />
+				<include name="build.properties" />
+			</fileset>
+		</zip>
+
+		<echo level="info">上传应用源代码到服务端......</echo>
+		<upload appID="${appID}" file="${buildSrcDir}.zip" appBuilderServer="${appBuilderServer}" session="${session}" />
+
+		<echo level="info">服务端正在执行......</echo>
+		<pack appID="${appID}" appBuilderServer="${appBuilderServer}" session="${session}" />
+
+		<echo level="info">下载应用包......</echo>
+		<download appID="${appID}" appBuilderServer="${appBuilderServer}" dir="${targetDir}/dist" />
+
+		<delete file="${buildSrcDir}.zip" />
+	</target>
+
+	<target name="unZipAppBuilderServerPackage" description="解压出应用包文件">
+		<echo level="info">解压应用包......</echo>
+		<unzip src="${targetDir}/dist/app.zip" dest="${targetDir}/dist" overwrite="true" encoding="UTF-8" />
+
+		<delete file="${targetDir}/dist/app.zip" />
+	</target>
+
+	<target name="saveLastPackConfig" description="保存配置信息">
+		<propertyfile file="${targetDir}/build.properties">
+			<entry key="platform" value="${platform}" />
+			<entry key="includeUIRes" value="${includeUIRes}" />
+			<entry key="compileUI" value="${compileUI}" />
+			<entry key="useProxyBuilderServer" value="${useProxyBuilderServer}" />
+			<entry key="proxyBuilderServer" value="${proxyBuilderServer}" />
+			<entry key="releaseMode" value="${releaseMode}" />
+		</propertyfile>
+	</target>
+
+</project>
