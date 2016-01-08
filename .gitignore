@@ -6,3 +6,13 @@
 
 # logs
 /logs
+
+# model--->下面的暂时还不是很确定
+/model/Baas/classes
+/model/Native/.classpath
+/model/Native/.project
+/model/Native/.settings
+/model/UI2/.classpath
+/model/UI2/.jshintrc
+/model/UI2/.project
+/model/UI2/.settings
