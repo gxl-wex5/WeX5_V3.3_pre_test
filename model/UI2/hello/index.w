@@ -21,6 +21,6 @@
         </div> 
       </div>  
     <div class="x-panel-content" xid="content1"><input component="$UI/system/components/justep/input/input" class="form-control" xid="input2" bind-value="name"></input>
-  <div component="$UI/system/components/justep/output/output" class="x-output" xid="output2" bind-text='"hello:" + name.get()'></div></div>
+  <div component="$UI/system/components/justep/output/output" class="x-output" xid="output2" bind-text='"hello222:" + name.get()'></div></div>
   </div> 
 </div>
